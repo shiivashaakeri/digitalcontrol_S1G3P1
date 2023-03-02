@@ -10,7 +10,7 @@ This project is the first session job of the Digital Control Lab, which aims to 
 - Push button
 
 ### Software Requirements
-- STM32CubeIDE
+- STM32CubeIDE (version 1.11.0)
 - stm32cube_fw_f4_v1270 and stm32cube_fw_f4_v1271 packages
 ### Setup
 
@@ -29,5 +29,32 @@ This project is the first session job of the Digital Control Lab, which aims to 
 
 ## Code Explanation
 The main.c file contains the code for the project. The code initializes the microcontroller, configures the system clock, initializes the GPIO pins, and enters an infinite loop.
+``` c
+/* USER CODE BEGIN PV */
+int x=1;
+/* USER CODE END PV */
+
+while (1)
+  {
+    /* USER CODE END WHILE */
+	  	  HAL_GPIO_TogglePin(pin1_GPIO_Port,pin1_Pin);
+		  int delay = 1000/x;
+		  HAL_Delay(delay);
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}
+```
 
 The frequency of the LED blinking is controlled by the variable "x". The delay time is calculated based on the value of "x". When the push button is pressed, the interrupt function HAL_GPIO_EXTI_Callback is called, which increments the value of "x". If the value of "x" reaches 5, it is reset to 1.
+``` c
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+
+	  if(HAL_GPIO_ReadPin(button_GPIO_Port,button_Pin)==1) {
+		  x++;
+	  	  }
+  	  if (x==5){
+  		  x=1;
+  	  }
+}
+```
